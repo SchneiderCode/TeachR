@@ -1,0 +1,148 @@
+---
+title: "Tutorial"
+tutorial: 
+  id: "unique-tutorial-identifier"
+output: 
+  teachr::tutorial:
+    server_url: "server-url-here"
+    allow_skip: false
+runtime: shiny_prerendered
+---   
+
+
+```{r setup, include=FALSE}
+library(teachr)
+library(learnr)
+library(httr2)
+
+#The student_id is set at run time to match the active user's id. 
+student_id <- ""
+#The server url must match the one used above, in the YAML frontmatter
+server_url <<- "server-url-here"
+
+gradethis::gradethis_setup()
+knitr::opts_chunk$set(echo = FALSE)
+
+```
+
+```{r, context="server-start"}
+
+#Initialize the student id to be the currently active user's id
+event_register_handler("session_start", function(session, event, data) {
+  student_id <<- get_tutorial_info()$user_id
+  session$sendCustomMessage("set_id", get_tutorial_info()$user_id)
+})
+
+#Transmit coding exercise submissions to the server
+event_register_handler("exercise_result", function(session, event, data) {
+ 
+  if(!is.null(data$feedback)){#If feedback is present, then this is a graded exercise
+    req <- request(server_url) %>%
+            req_body_json(list(type        = "1",
+                               student_id  = student_id,
+                               tutorial_id = get_tutorial_info()$tutorial_id,
+                               exercise_id = data$label,
+                               is_correct  = data$feedback$correct, 
+                               submission  = data$code))
+    resp <- req_perform(req)
+  }
+  #Uncomment this code to also transmit the ungraded exercise submissions
+  # Warning - this will send a server request *every time* a student runs their code!
+  #else{
+  #  req <- request(server_url) %>%
+  #          req_body_json(list(type        = "1",
+  #                             student_id  = student_id,
+  #                             tutorial_id = get_tutorial_info()$tutorial_id,
+  #                             exercise_id = data$label,
+  #                             is_correct  = "NA", 
+  #                             submission  = data$code))
+  #  resp <- req_perform(req)
+  #}
+})
+
+# Transmit quiz question submissions to the server
+event_register_handler("question_submission", function(session, event, data) {
+    req <-request(server_url) %>%
+            req_body_json(list(type        = "1",
+                               student_id  = student_id,
+                               tutorial_id = get_tutorial_info()$tutorial_id,
+                               exercise_id = data$label,
+                               is_correct  = data$correct, 
+                               submission  = paste(data$answer, collapse=", ")))
+    resp <- req_perform(req)
+})
+
+
+```
+
+```{r, context="server"}
+#Monitor the included text field for edits made by the user.  
+observeEvent(input$student_id, {
+  student_id <<- input$student_id
+})
+
+```
+
+## Topic 1
+
+### Exercise 
+
+*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+
+Write the R code required to add two plus two:
+
+```{r two-plus-two, exercise=TRUE}
+
+```
+
+### Exercise with Code
+
+*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+
+Now write a function that adds any two numbers and then call it:
+
+```{r add-function, exercise=TRUE, exercise.lines = 5}
+add <- function() {
+  
+}
+```
+
+## Topic 2
+
+### Exercise with Hint
+
+*Here's an exercise where the chunk is pre-evaluated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
+
+Modify the following code to limit the number of rows printed to 5:
+
+```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
+mtcars
+```
+
+```{r print-limit-hint}
+head(mtcars)
+```
+
+### Quiz
+
+*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+
+Some questions to verify that you understand the purposes of various base and recommended R packages:
+
+```{r quiz}
+quiz(
+  question("Which package contains functions for installing other R packages?",
+    answer("base"),
+    answer("tools"),
+    answer("utils", correct = TRUE),
+    answer("codetools")
+  ),
+  question("Which of the R packages listed below are used to create plots?",
+    answer("lattice", correct = TRUE),
+    answer("tools"),
+    answer("stats"),
+    answer("grid", correct = TRUE)
+  )
+)
+```
+

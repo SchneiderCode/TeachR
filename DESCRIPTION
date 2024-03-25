@@ -1,0 +1,18 @@
+Package: teachr
+Type: Package
+Title: Extension to LearnR
+Version: 0.0.1
+Author: Michael Schneider
+Maintainer: Michael Schneider <m.schneider.programmer@gmail.com>
+Description: This package modifies LearnR's tutorial template to enable html 
+    post/get requests to a provided server's URL. This allows a teacher to control
+    how far into a tutorial students can progress and record student submissions 
+    to coding exercises and quiz questions.
+License: Apache License (>= 2.0)
+Encoding: UTF-8
+LazyData: true
+Imports: 
+  learnr,
+  shiny
+Depends: 
+    R (>= 2.10)

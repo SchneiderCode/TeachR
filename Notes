@@ -1,0 +1,8 @@
+Todo:
+ 1. Find a way to read the yaml provided URL
+     - Done - Now insert the value into a meta tag and try to limit the code to only being in the rmarkdown template.
+ 2. Comment/mark the modified code from the base version
+ 3. Update readME
+ 4. Create a tutorial covering how to further extend the template
+ 5. Create a tutorial covering how to use the Google Sheet example server
+ 6. Create a tutorial covering how to create a custom server

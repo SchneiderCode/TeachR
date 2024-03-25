@@ -1,0 +1,27 @@
+{
+    "id": "34480728",
+    "path": "~/R Programming Files/TeachR_V2/TeachR/inst/rmarkdown/templates/tutorial/resources/tutorial-format.js",
+    "project_path": "inst/rmarkdown/templates/tutorial/resources/tutorial-format.js",
+    "type": "js",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1703098503883.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "8,61",
+        "scrollLine": "0",
+        "softWrapLines": "false"
+    },
+    "folds": "19|49|37|2|\n176|38|180|2|\n489|31|492|2|\n561|35|569|2|\n571|21|574|2|\n576|45|620|2|\n649|39|710|2|\n",
+    "lastKnownWriteTime": 1705271212,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1710782646560,
+    "read_only": false,
+    "read_only_alternatives": []
+}
