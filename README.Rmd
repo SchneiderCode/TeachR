@@ -29,16 +29,10 @@ For clarity, tutorials created from the included rmarkdown template
  will be referred to as *teachr* tutorials. But please note that the bulk of the
  tutorial's functionality is still provided by learnr. Please refer to the learnr
  documentation for more information on creating interactive R tutorials [https://rstudio.github.io/learnr/](https://rstudio.github.io/learnr/).
-Todo: 
- 1. Readme
- 2. Explain Google Script & Create copy link
- 3. update name to use teachr (lower case)
- 4. Create Github Repo
- 5. Share and review with colleagues
 
 ## Installation
 
-You can install the development version of teachr like so:
+You can install the development version of teachr using the following code snippet:
 
 ``` r
 # install.packages("remotes")
