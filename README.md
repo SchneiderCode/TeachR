@@ -70,7 +70,7 @@ of Contents, if included.
 **Parameters**  
 <dl>
 <dt>
-**type=2**
+type=2
 </dt>
 <dd>
 This is a temporary variable that identifies this GET request’s purpose.
@@ -80,7 +80,7 @@ A future update will replace the variable with an endpoint.
 **Return**  
 <dl>
 <dt>
-**access**
+access
 </dt>
 <dd>
 
@@ -119,6 +119,7 @@ If a topic has no accessible sections, set its value to an empty array
 \[\].
 </li>
 </ul>
+<hr>
 
 #### Check Access on an Individual Section or Topic
 
@@ -134,21 +135,21 @@ A student clicks either the “Next Topic” or “Continue” buttons.
 **Parameters**
 <dl>
 <dt>
-**topic**
+topic
 </dt>
 <dd>
 The topic id, which is of the format `section-header-2-name`. For
 example, (## Topic 1) becomes (section-topic-1).
 </dd>
 <dt>
-**section**
+section
 </dt>
 <dd>
 The section id, which is of the format `section-header-3-name`. For
 example, (### Exercise 1) becomes (section-exercise-1).
 </dd>
 <dt>
-**type=1**
+type=1
 </dt>
 <dd>
 This is a temporary variable that identifies this GET request’s purpose.
@@ -158,7 +159,7 @@ A future update will replace the variable with an actual endpoint.
 **Return**  
 <dl>
 <dt>
-**can_proceed**
+can_proceed
 </dt>
 <dd>
 TRUE - The topic/section CAN be accessed.
@@ -178,6 +179,7 @@ has been set.
 GET requests are only sent after checking if the exercise can be
 [skipped](https://pkgs.rstudio.com/learnr/articles/exercises.html?q=progress#exercise-skipping).
 </li>
+<hr>
 
 ### Post Requests - Recording Student Submissions
 
@@ -193,33 +195,33 @@ When a student submits an exercise or quiz question for grading.
 **Parameters**
 <dl>
 <dt>
-**student_id**
+student_id
 </dt>
 <dd>
 Initially set as the student’s username (if run from RStudio), but this
 can be manually set within the tutorial.
 </dd>
 <dt>
-**exercise_id**
+exercise_id
 </dt>
 <dd>
 The name of the exercise/quiz’s code chunk (`{r, exercise_name}`).
 </dd>
 <dt>
-**is_correct**
+is_correct
 </dt>
 <dd>
 How the submission was marked - TRUE (correct), FALSE (incorrect), NA
 (not graded).
 </dd>
 <dt>
-**submission**
+submission
 </dt>
 <dd>
 Either the student’s code or the answer they chose for the question.
 </dd>
 <dt>
-**type**
+type
 </dt>
 <dd>
 This is a temporary variable which will be replaced with an endpoint in
@@ -234,6 +236,7 @@ all coding exercises, *uncomment* the additional code provided in the
 `else{}` statement.
 </li>
 </ul>
+<hr>
 
 ### Google Sheet Web App
 

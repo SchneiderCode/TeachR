@@ -68,13 +68,13 @@ When a tutorial first loads, it will request a list of the topics and accessible
 
 **Parameters**  
 <dl>
-  <dt>**type=2**</dt>
+  <dt>type=2</dt>
   <dd>This is a temporary variable that identifies this GET request's purpose. A future update will replace the variable with an endpoint.</dd>
 </dl>
 
 **Return**  
 <dl>
-  <dt>**access**</dt>
+  <dt>access</dt>
   <dd>JSON formatted data containing all of the topic names and a list of their accessible sections.  
 ``` json  
 {
@@ -100,6 +100,8 @@ When a tutorial first loads, it will request a list of the topics and accessible
   <li>If a topic has no accessible sections, set its value to an empty array [].</li>
 </ul>
 
+<hr>
+
 #### Check Access on an Individual Section or Topic 
 
 ``` 
@@ -114,17 +116,17 @@ A student clicks either the "Next Topic" or "Continue" buttons.
 
 **Parameters** 
 <dl>
-  <dt>**topic**</dt>
+  <dt>topic</dt>
   <dd>The topic id, which is of the format `section-header-2-name`. For example, (## Topic 1) becomes (section-topic-1).</dd>
-  <dt>**section**</dt>
+  <dt>section</dt>
   <dd>The section id, which is of the format `section-header-3-name`. For example, (### Exercise 1) becomes (section-exercise-1).</dd>
-  <dt>**type=1**</dt>
+  <dt>type=1</dt>
   <dd>This is a temporary variable that identifies this GET request's purpose. A future update will replace the variable with an actual endpoint.</dd>
 </dl>
 
 **Return**  
 <dl>
-  <dt>**can_proceed**</dt>
+  <dt>can_proceed</dt>
   <dd>TRUE - The topic/section CAN be accessed.</dd>
   <dd>FALSE - The topic/section CANNOT be accessed.</dd>
 </dl>
@@ -134,6 +136,7 @@ A student clicks either the "Next Topic" or "Continue" buttons.
   <li>The "Continue" button will only be shown if [progressive reveal](https://pkgs.rstudio.com/learnr/articles/exercises.html?q=progress#progressive-reveal) has been set.</li>
   <li>GET requests are only sent after checking if the exercise can be [skipped](https://pkgs.rstudio.com/learnr/articles/exercises.html?q=progress#exercise-skipping).</li>
 
+<hr>
 
 ### Post Requests - Recording Student Submissions  
 
@@ -147,15 +150,15 @@ When a student submits an exercise or quiz question for grading.
  
 **Parameters**
 <dl>
-  <dt>**student_id**</dt> 
+  <dt>student_id</dt> 
   <dd>Initially set as the student's username (if run from RStudio), but this can be manually set within the tutorial.</dd>
-  <dt>**exercise_id**</dt> 
+  <dt>exercise_id</dt> 
   <dd>The name of the exercise/quiz's code chunk (````{r, exercise_name}````).</dd>
-  <dt>**is_correct**</dt> 
+  <dt>is_correct</dt> 
   <dd>How the submission was marked - TRUE (correct), FALSE (incorrect), NA (not graded).</dd>
-  <dt>**submission**</dt> 
+  <dt>submission</dt> 
   <dd>Either the student's code or the answer they chose for the question.</dd>
-  <dt>**type**</dt> 
+  <dt>type</dt> 
   <dd>This is a temporary variable which will be replaced with an endpoint in a future update.</dd>
 </dl>
 
@@ -164,6 +167,8 @@ When a student submits an exercise or quiz question for grading.
   <li> By default, only graded coding exercises are transmitted. To transmit all coding exercises, *uncomment*
  the additional code provided in the `else{}` statement.</li>
 </ul>
+ 
+<hr>
  
 ### Google Sheet Web App
 An example Google Sheet has been created which implements all of the teachR features and can be deployed following these steps:  
