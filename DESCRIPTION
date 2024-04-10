@@ -1,6 +1,6 @@
 Package: teachr
 Type: Package
-Title: Extension to LearnR
+Title: Manage LearnR Tutorials
 Version: 0.0.1
 Author: Michael Schneider
 Maintainer: Michael Schneider <m.schneider.programmer@gmail.com>
