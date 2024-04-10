@@ -1,16 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# teachr
+# teachR
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The teachr package extends learnr’s base [RMarkdown
+The teachR package extends learnr’s base [RMarkdown
 template](https://pkgs.rstudio.com/learnr/articles/formats.html?q=template#custom-formats)
 to provide instructors more fine-grained controls for observing and
 managing tutorial progression. For clarity, tutorials created with the
-teachr rmarkdown template will be referred to as *teachr* tutorials. But
+teachR rmarkdown template will be referred to as *teachR* tutorials. But
 please note that the bulk of the tutorial’s functionality is still
 provided by learnr. Please refer to the learnr documentation for more
 information on creating interactive R tutorials
@@ -28,12 +28,12 @@ Record student submissions for quiz questions and coding exercises
 
 ## Installation
 
-You can install the development version of teachr using the following
+You can install the development version of teachR using the following
 code snippet:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("schneidercode/teachr")
+remotes::install_github("schneidercode/teachR")
 ```
 
 ## Server Requirements
@@ -49,7 +49,7 @@ Colab (**Still Under Development**).
 
 ### Get Requests - Controlling Tutorial Access
 
-teachr enables an instructor to explicitly set which topics and sections
+teachR enables an instructor to explicitly set which topics and sections
 can be accessed through the use of HTTP GET requests, which are included
 in the template’s javascript code
 ([tutorial-format.js](https://github.com/SchneiderCode/TeachR/blob/main/inst/rmarkdown/templates/tutorial/resources/tutorial-format.js)).
@@ -59,16 +59,26 @@ in the template’s javascript code
     https://Your.Server.com?type=2
 
 **Description**  
+
+<div style="padding-left:25px">
+
 This GET request retrieves a list of the topics in a given tutorial and
 the accessible sections within each topic.
 
+</div>
+
 **Trigger**  
+
+<div style="padding-left:25px">
+
 When a tutorial first loads, it will request a list of the topics and
 accessible sections. This information is used for populating the Table
 of Contents, if included.
 
+</div>
+
 **Parameters**  
-<dl>
+<dl style="padding-left:25px">
 <dt>
 type=2
 </dt>
@@ -78,7 +88,7 @@ A future update will replace the variable with an endpoint.
 </dd>
 </dl>
 **Return**  
-<dl>
+<dl style="padding-left:25px">
 <dt>
 access
 </dt>
@@ -105,7 +115,7 @@ their accessible sections.
 </dd>
 </dl>
 **Notes**  
-<ul>
+<ul style="padding-left:25px">
 <li>
 The `access` object MUST contain a list of all the topics within a
 tutorial.
@@ -126,14 +136,24 @@ If a topic has no accessible sections, set its value to an empty array
     https://Your.Server.com?type=1&topic=${topic.id}&section=${section.id}
 
 **Description**  
+
+<div style="padding-left:25px">
+
 This GET request checks if the user can access the given topic and/or
 section.
 
+</div>
+
 **Trigger**  
+
+<div style="padding-left:25px">
+
 A student clicks either the “Next Topic” or “Continue” buttons.
 
+</div>
+
 **Parameters**
-<dl>
+<dl style="padding-left:25px">
 <dt>
 topic
 </dt>
@@ -157,7 +177,7 @@ A future update will replace the variable with an actual endpoint.
 </dd>
 </dl>
 **Return**  
-<dl>
+<dl style="padding-left:25px">
 <dt>
 can_proceed
 </dt>
@@ -169,7 +189,7 @@ FALSE - The topic/section CANNOT be accessed.
 </dd>
 </dl>
 **Notes**  
-<ul>
+<ul style="padding-left:25px">
 <li>
 The “Continue” button will only be shown if [progressive
 reveal](https://pkgs.rstudio.com/learnr/articles/exercises.html?q=progress#progressive-reveal)
@@ -184,16 +204,26 @@ GET requests are only sent after checking if the exercise can be
 ### Post Requests - Recording Student Submissions
 
 **Description**  
+
+<div style="padding-left:25px">
+
 Student submissions can be recorded through the use of post requests.
 This feature is built with learnr’s [event
 handlers](https://pkgs.rstudio.com/learnr/articles/publishing.html#event-handlers),
 which are used here to capture and then transmit student submissions.
 
+</div>
+
 **Trigger**  
+
+<div style="padding-left:25px">
+
 When a student submits an exercise or quiz question for grading.
 
+</div>
+
 **Parameters**
-<dl>
+<dl style="padding-left:25px">
 <dt>
 student_id
 </dt>
@@ -229,7 +259,7 @@ a future update.
 </dd>
 </dl>
 **Notes**  
-<ul>
+<ul style="padding-left:25px">
 <li>
 By default, only graded coding exercises are transmitted. To transmit
 all coding exercises, *uncomment* the additional code provided in the
