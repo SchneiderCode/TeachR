@@ -70,8 +70,10 @@
 </div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The teachr package provides an rmarkdown template that extends learnr tutorials. An interactive tutorial built with teachr provide instructors more fine-grained controls for observing and managing student progression. The features currently supported are as follows: - Control student access to individual sections &amp; topics - Record student submissions for quiz questions and coding exercises</p>
-<p>For clarity, tutorials created from the included rmarkdown template will be referred to as <em>teachr</em> tutorials. But please note that the bulk of the tutorial’s functionality is still provided by learnr. Please refer to the learnr documentation for more information on creating interactive R tutorials <a href="https://rstudio.github.io/learnr/" class="external-link uri">https://rstudio.github.io/learnr/</a>.</p>
+<p>The teachr package extends learnr’s base <a href="https://pkgs.rstudio.com/learnr/articles/formats.html?q=template#custom-formats" class="external-link">RMarkdown template</a> to provide instructors more fine-grained controls for observing and managing tutorial progression. For clarity, tutorials created with the teachr rmarkdown template will be referred to as <em>teachr</em> tutorials. But please note that the bulk of the tutorial’s functionality is still provided by learnr. Please refer to the learnr documentation for more information on creating interactive R tutorials <a href="https://rstudio.github.io/learnr/" class="external-link uri">https://rstudio.github.io/learnr/</a>.</p>
+<p>Currently Supported Features:<br>
+- Enable/disable individual sections &amp; topics in real-time<br>
+- Record student submissions for quiz questions and coding exercises</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -81,26 +83,91 @@
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"schneidercode/teachr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="enabling-teachr">Enabling teachr<a class="anchor" aria-label="anchor" href="#enabling-teachr"></a>
+<h2 id="server-requirements">Server Requirements<a class="anchor" aria-label="anchor" href="#server-requirements"></a>
 </h2>
-<p>A teachr tutorial enables an instructor to monitor and control student progress through the use of a secondary server. Just about any server can be setup for teachr. The only requirement is in the formating of get and post requests.</p>
+<p>Tutorial controls are managed via HTTP requests. Therefore, in order for a teachR tutorial to function, you must setup an endpoint that can respond to both HTTP GET and HTTP POST requests. The format of the requests are discussed in more detail below for those who want to implement a custom server. For those less interested in managing a personal server or database, you can manage teachR tutorials through a provided Google Sheet (powered with Google App Scripts) or use a Google Colab (<strong>Still Under Development</strong>).</p>
 <div class="section level3">
-<h3 id="get-requests---controlling-student-progression">Get Requests - Controlling Student Progression<a class="anchor" aria-label="anchor" href="#get-requests---controlling-student-progression"></a>
+<h3 id="get-requests---controlling-tutorial-access">Get Requests - Controlling Tutorial Access<a class="anchor" aria-label="anchor" href="#get-requests---controlling-tutorial-access"></a>
 </h3>
-<p>teachr enables an instructor to explicitly set which topics and sections can be accessed through the use of http get requests, which are included in the template’s javascript code(<strong>teachr/inst/man/rmarkdown/templates/tutorial/resources/tutorial-format.js</strong>). An http get request will be triggered when a student clicks “Next Topic” or “Continue”. The parameters of the get request are as follows: - <strong>topic</strong>: The topic id, which is of the format section-header-2-name. For example, (## Topic 1) becomes (section-topic-1). - <strong>section</strong>: The section id, which is of the format section-header-3-name. For example, (### Exercise 1) becomes (section-exercise-1).<br>
-- <strong>type=1</strong>: This is a preset parameter (1) that is intended for future extensions of teachr, where additional get requests may be supported.</p>
-<p><strong>Please note</strong>, the “Continue” button will only be shown if <a href="progressive%20reveal">https://pkgs.rstudio.com/learnr/articles/exercises.html?q=progress#progressive-reveal</a> has been set. Also, get requests are sent after checking if the exercise can be <a href="skipped">https://pkgs.rstudio.com/learnr/articles/exercises.html?q=progress#exercise-skipping</a>.</p>
-<p>This feature was designed primarily for active lectures and lab activities, where an instructor may want to limit how far ahead students can progress. Additionally, this feature could be helpful for hiding tutorial sections, removing the need to manually edit &amp; re-deploy a tutorial.</p>
+<p>teachr enables an instructor to explicitly set which topics and sections can be accessed through the use of HTTP GET requests, which are included in the template’s javascript code (<a href="https://github.com/SchneiderCode/TeachR/blob/main/inst/rmarkdown/templates/tutorial/resources/tutorial-format.js" class="external-link">tutorial-format.js</a>).</p>
+<div class="section level4">
+<h4 id="tutorial-topics-and-accessible-sections">Tutorial Topics and Accessible Sections<a class="anchor" aria-label="anchor" href="#tutorial-topics-and-accessible-sections"></a>
+</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>Your.Server.com?type<span class="ot">=</span><span class="dv">2</span></span></code></pre></div>
+<p><strong>Description</strong><br>
+This GET request retrieves a list of the topics in a given tutorial and the accessible sections within each topic.</p>
+<p><strong>Trigger</strong><br>
+When a tutorial first loads, it will request a list of the topics and accessible sections. This information is used for populating the Table of Contents, if included.</p>
+<p><strong>Parameters</strong><br>
+- <strong>type=2</strong>: This is a temporary variable that identifies this GET request’s purpose. A future update will replace the variable with an endpoint.</p>
+<p><strong>Return</strong><br>
+- <strong>access</strong>: JSON formatted data containing all of the topic names and a list of their accessible sections.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>    <span class="dt">"access"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>        <span class="dt">"section-topic-1"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>            <span class="st">"section-name"</span><span class="ot">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>            <span class="st">"section-other-name"</span><span class="ot">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>        <span class="dt">"section-topic-2"</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>        <span class="dt">"section-topic-3"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>            <span class="st">""</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Notes</strong><br>
+- The <code>access</code> object MUST contain a list of all the topics within a tutorial.<br>
+- If a topic’s initial section is accessible, list it as an empty string ““.<br>
+- If a topic has no accessible sections, set its value to an empty array [].</p>
+</div>
+<div class="section level4">
+<h4 id="check-access-on-an-individual-section-or-topic">Check Access on an Individual Section or Topic<a class="anchor" aria-label="anchor" href="#check-access-on-an-individual-section-or-topic"></a>
+</h4>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>Your.Server.com?type<span class="ot">=</span><span class="dv">1</span><span class="sc">&amp;</span>topic<span class="ot">=</span><span class="er">$</span>{topic.id}<span class="sc">&amp;</span>section<span class="ot">=</span><span class="er">$</span>{section.id}</span></code></pre></div>
+<p><strong>Description</strong><br>
+This GET request checks if the user can access the given topic and/or section.</p>
+<p><strong>Trigger</strong><br>
+A student clicks either the “Next Topic” or “Continue” buttons.</p>
+<p><strong>Parameters</strong><br>
+- <strong>topic</strong>: The topic id, which is of the format <code>section-header-2-name</code>. For example, (## Topic 1) becomes (section-topic-1).<br>
+- <strong>section</strong>: The section id, which is of the format <code>section-header-3-name</code>. For example, (### Exercise 1) becomes (section-exercise-1).<br>
+- <strong>type=1</strong>: This is a temporary variable that identifies this GET request’s purpose. A future update will replace the variable with an actual endpoint.</p>
+<p><strong>Return</strong><br>
+- <strong>can_proceed:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="sc">-</span>   <span class="cn">TRUE</span> <span class="sc">-</span> The topic<span class="sc">/</span>section CAN be accessed.</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="sc">-</span>   <span class="cn">FALSE</span> <span class="sc">-</span> The topic<span class="sc">/</span>section CANNOT be accessed.</span></code></pre></div>
+<p><strong>Notes</strong><br>
+- The “Continue” button will only be shown if <a href="https://pkgs.rstudio.com/learnr/articles/exercises.html?q=progress#progressive-reveal" class="external-link">progressive reveal</a> has been set.<br>
+- GET requests are only sent after checking if the exercise can be <a href="https://pkgs.rstudio.com/learnr/articles/exercises.html?q=progress#exercise-skipping" class="external-link">skipped</a>.</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="post-requests---recording-student-submissions">Post Requests - Recording Student Submissions<a class="anchor" aria-label="anchor" href="#post-requests---recording-student-submissions"></a>
 </h3>
-<p>Student submissions can be recorded through the use of post requests. These requests are triggered when a student submits an exercise or quiz question for grading. This features is built off of learnr’s built in <a href="event%20handlers">https://pkgs.rstudio.com/learnr/articles/publishing.html#event-handlers</a>, which are used here to capture and then transmit student submissions. By default, only graded coding exercises are transmitted. To transmit all coding exercises, uncomment the additional code provided in the else{} statement. The parameters provided by teachr are as follows: - <strong>student_id</strong>: Initially set as the student’s login (if run from RStudio), but this can be manually set within the tutorial. - <strong>exercise_id</strong>: The name of the exercise/quiz’s code chunk (```{r, exercise_name}) - <strong>is_correct</strong>: How the submission was marked - TRUE (correct), FALSE (incorrect), NA (not graded) - <strong>submission</strong>: Either the student’s code or the answer they chose for the question</p>
+<p><strong>Description</strong><br>
+Student submissions can be recorded through the use of post requests. This feature is built with learnr’s <a href="https://pkgs.rstudio.com/learnr/articles/publishing.html#event-handlers" class="external-link">event handlers</a>, which are used here to capture and then transmit student submissions.</p>
+<p><strong>Trigger</strong><br>
+When a student submits an exercise or quiz question for grading.</p>
+<p><strong>Parameters</strong>:<br>
+- <strong>student_id</strong>: Initially set as the student’s username (if run from RStudio), but this can be manually set within the tutorial.<br>
+- <strong>exercise_id</strong>: The name of the exercise/quiz’s code chunk (<code>{r, exercise_name}</code>).<br>
+- <strong>is_correct</strong>: How the submission was marked - TRUE (correct), FALSE (incorrect), NA (not graded).<br>
+- <strong>submission</strong>: Either the student’s code or the answer they chose for the question.<br>
+- <strong>type</strong>: This is a temporary variable which will be replaced with an endpoint in a future update.</p>
+<p><strong>Notes</strong><br>
+- By default, only graded coding exercises are transmitted. To transmit all coding exercises, <em>uncomment</em> the additional code provided in the <code>else{}</code> statement.</p>
 </div>
 <div class="section level3">
-<h3 id="google-sheet-server">Google Sheet Server<a class="anchor" aria-label="anchor" href="#google-sheet-server"></a>
+<h3 id="google-sheet-web-app">Google Sheet Web App<a class="anchor" aria-label="anchor" href="#google-sheet-web-app"></a>
 </h3>
-<p>For convience, a Google Sheet has been created which includes Google Scripts for handling a teachr’s get/post requests. Follow these steps for deploying a Google Sheet Server: 1. Make a copy of the <a href="Google%20Sheet"></a> 2. Prepare the Google Sheet based on your finished tutorial 3. Deploy the connected Google Script</p>
+<p>An example Google Sheet has been created which implements all of the teachR features and can be deployed following these steps:</p>
+<ol style="list-style-type: decimal">
+<li>Make a copy of the Starter <a href="https://docs.google.com/spreadsheets/d/1UJgTcXp5L3g75YGoTylM0GxFjdudELvIamwEuEDrMsU/copy" class="external-link">Google Sheet</a><br>
+</li>
+<li>Adding a tutorial’s information to the Google Sheet.<br>
+</li>
+<li>Deploy the embedded App Script - <a href="https://developers.google.com/apps-script/concepts/deployments" class="external-link">Deploying Google App Scripts</a>
+</li>
+</ol>
 </div>
 </div>
 </div>
