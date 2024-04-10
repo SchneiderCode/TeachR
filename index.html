@@ -65,12 +65,12 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="teachr">teachr<a class="anchor" aria-label="anchor" href="#teachr"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="teachr">teachR<a class="anchor" aria-label="anchor" href="#teachr"></a>
 </h1>
 </div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The teachr package extends learnr’s base <a href="https://pkgs.rstudio.com/learnr/articles/formats.html?q=template#custom-formats" class="external-link">RMarkdown template</a> to provide instructors more fine-grained controls for observing and managing tutorial progression. For clarity, tutorials created with the teachr rmarkdown template will be referred to as <em>teachr</em> tutorials. But please note that the bulk of the tutorial’s functionality is still provided by learnr. Please refer to the learnr documentation for more information on creating interactive R tutorials <a href="https://rstudio.github.io/learnr/" class="external-link uri">https://rstudio.github.io/learnr/</a>.</p>
+<p>The teachR package extends learnr’s base <a href="https://pkgs.rstudio.com/learnr/articles/formats.html?q=template#custom-formats" class="external-link">RMarkdown template</a> to provide instructors more fine-grained controls for observing and managing tutorial progression. For clarity, tutorials created with the teachR rmarkdown template will be referred to as <em>teachR</em> tutorials. But please note that the bulk of the tutorial’s functionality is still provided by learnr. Please refer to the learnr documentation for more information on creating interactive R tutorials <a href="https://rstudio.github.io/learnr/" class="external-link uri">https://rstudio.github.io/learnr/</a>.</p>
 Currently Supported Features:<br><ul>
 <li>
 Enable/disable individual sections &amp; topics in real-time
@@ -82,10 +82,10 @@ Record student submissions for quiz questions and coding exercises
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of teachr using the following code snippet:</p>
+<p>You can install the development version of teachR using the following code snippet:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"schneidercode/teachr"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"schneidercode/teachR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="server-requirements">Server Requirements<a class="anchor" aria-label="anchor" href="#server-requirements"></a>
@@ -94,16 +94,20 @@ Record student submissions for quiz questions and coding exercises
 <div class="section level3">
 <h3 id="get-requests---controlling-tutorial-access">Get Requests - Controlling Tutorial Access<a class="anchor" aria-label="anchor" href="#get-requests---controlling-tutorial-access"></a>
 </h3>
-<p>teachr enables an instructor to explicitly set which topics and sections can be accessed through the use of HTTP GET requests, which are included in the template’s javascript code (<a href="https://github.com/SchneiderCode/TeachR/blob/main/inst/rmarkdown/templates/tutorial/resources/tutorial-format.js" class="external-link">tutorial-format.js</a>).</p>
+<p>teachR enables an instructor to explicitly set which topics and sections can be accessed through the use of HTTP GET requests, which are included in the template’s javascript code (<a href="https://github.com/SchneiderCode/TeachR/blob/main/inst/rmarkdown/templates/tutorial/resources/tutorial-format.js" class="external-link">tutorial-format.js</a>).</p>
 <div class="section level4">
 <h4 id="tutorial-topics-and-accessible-sections">Tutorial Topics and Accessible Sections<a class="anchor" aria-label="anchor" href="#tutorial-topics-and-accessible-sections"></a>
 </h4>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>Your.Server.com?type<span class="ot">=</span><span class="dv">2</span></span></code></pre></div>
-<p><strong>Description</strong><br>
-This GET request retrieves a list of the topics in a given tutorial and the accessible sections within each topic.</p>
-<p><strong>Trigger</strong><br>
-When a tutorial first loads, it will request a list of the topics and accessible sections. This information is used for populating the Table of Contents, if included.</p>
-<strong>Parameters</strong><br><dl>
+<p><strong>Description</strong></p>
+<div style="padding-left:25px">
+<p>This GET request retrieves a list of the topics in a given tutorial and the accessible sections within each topic.</p>
+</div>
+<p><strong>Trigger</strong></p>
+<div style="padding-left:25px">
+<p>When a tutorial first loads, it will request a list of the topics and accessible sections. This information is used for populating the Table of Contents, if included.</p>
+</div>
+<strong>Parameters</strong><br><dl style="padding-left:25px">
 <dt>
 type=2
 </dt>
@@ -111,7 +115,7 @@ type=2
 This is a temporary variable that identifies this GET request’s purpose. A future update will replace the variable with an endpoint.
 </dd>
 </dl>
-<strong>Return</strong><br><dl>
+<strong>Return</strong><br><dl style="padding-left:25px">
 <dt>
 access
 </dt>
@@ -131,7 +135,7 @@ access
 <span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 </dd>
 </dl>
-<strong>Notes</strong><br><ul>
+<strong>Notes</strong><br><ul style="padding-left:25px">
 <li>
 The <code>access</code> object MUST contain a list of all the topics within a tutorial.
 </li>
@@ -148,12 +152,16 @@ If a topic has no accessible sections, set its value to an empty array [].
 <h4 id="check-access-on-an-individual-section-or-topic">Check Access on an Individual Section or Topic<a class="anchor" aria-label="anchor" href="#check-access-on-an-individual-section-or-topic"></a>
 </h4>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>Your.Server.com?type<span class="ot">=</span><span class="dv">1</span><span class="sc">&amp;</span>topic<span class="ot">=</span><span class="er">$</span>{topic.id}<span class="sc">&amp;</span>section<span class="ot">=</span><span class="er">$</span>{section.id}</span></code></pre></div>
-<p><strong>Description</strong><br>
-This GET request checks if the user can access the given topic and/or section.</p>
-<p><strong>Trigger</strong><br>
-A student clicks either the “Next Topic” or “Continue” buttons.</p>
+<p><strong>Description</strong></p>
+<div style="padding-left:25px">
+<p>This GET request checks if the user can access the given topic and/or section.</p>
+</div>
+<p><strong>Trigger</strong></p>
+<div style="padding-left:25px">
+<p>A student clicks either the “Next Topic” or “Continue” buttons.</p>
+</div>
 <strong>Parameters</strong>
-<dl>
+<dl style="padding-left:25px">
 <dt>
 topic
 </dt>
@@ -173,7 +181,7 @@ type=1
 This is a temporary variable that identifies this GET request’s purpose. A future update will replace the variable with an actual endpoint.
 </dd>
 </dl>
-<strong>Return</strong><br><dl>
+<strong>Return</strong><br><dl style="padding-left:25px">
 <dt>
 can_proceed
 </dt>
@@ -184,7 +192,7 @@ TRUE - The topic/section CAN be accessed.
 FALSE - The topic/section CANNOT be accessed.
 </dd>
 </dl>
-<strong>Notes</strong><br><ul>
+<strong>Notes</strong><br><ul style="padding-left:25px">
 <li>
 The “Continue” button will only be shown if <a href="https://pkgs.rstudio.com/learnr/articles/exercises.html?q=progress#progressive-reveal" class="external-link">progressive reveal</a> has been set.
 </li>
@@ -198,12 +206,16 @@ GET requests are only sent after checking if the exercise can be <a href="https:
 <div class="section level3">
 <h3 id="post-requests---recording-student-submissions">Post Requests - Recording Student Submissions<a class="anchor" aria-label="anchor" href="#post-requests---recording-student-submissions"></a>
 </h3>
-<p><strong>Description</strong><br>
-Student submissions can be recorded through the use of post requests. This feature is built with learnr’s <a href="https://pkgs.rstudio.com/learnr/articles/publishing.html#event-handlers" class="external-link">event handlers</a>, which are used here to capture and then transmit student submissions.</p>
-<p><strong>Trigger</strong><br>
-When a student submits an exercise or quiz question for grading.</p>
+<p><strong>Description</strong></p>
+<div style="padding-left:25px">
+<p>Student submissions can be recorded through the use of post requests. This feature is built with learnr’s <a href="https://pkgs.rstudio.com/learnr/articles/publishing.html#event-handlers" class="external-link">event handlers</a>, which are used here to capture and then transmit student submissions.</p>
+</div>
+<p><strong>Trigger</strong></p>
+<div style="padding-left:25px">
+<p>When a student submits an exercise or quiz question for grading.</p>
+</div>
 <strong>Parameters</strong>
-<dl>
+<dl style="padding-left:25px">
 <dt>
 student_id
 </dt>
@@ -235,7 +247,7 @@ type
 This is a temporary variable which will be replaced with an endpoint in a future update.
 </dd>
 </dl>
-<strong>Notes</strong><br><ul>
+<strong>Notes</strong><br><ul style="padding-left:25px">
 <li>
 By default, only graded coding exercises are transmitted. To transmit all coding exercises, <em>uncomment</em> the additional code provided in the <code>else{}</code> statement.
 </li>
