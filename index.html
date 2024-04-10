@@ -105,7 +105,7 @@ This GET request retrieves a list of the topics in a given tutorial and the acce
 When a tutorial first loads, it will request a list of the topics and accessible sections. This information is used for populating the Table of Contents, if included.</p>
 <strong>Parameters</strong><br><dl>
 <dt>
-<strong>type=2</strong>
+type=2
 </dt>
 <dd>
 This is a temporary variable that identifies this GET request’s purpose. A future update will replace the variable with an endpoint.
@@ -113,7 +113,7 @@ This is a temporary variable that identifies this GET request’s purpose. A fut
 </dl>
 <strong>Return</strong><br><dl>
 <dt>
-<strong>access</strong>
+access
 </dt>
 <dd>
 <p>JSON formatted data containing all of the topic names and a list of their accessible sections.</p>
@@ -142,6 +142,7 @@ If a topic’s initial section is accessible, list it as an empty string ““.
 If a topic has no accessible sections, set its value to an empty array [].
 </li>
 </ul>
+<hr>
 </div>
 <div class="section level4">
 <h4 id="check-access-on-an-individual-section-or-topic">Check Access on an Individual Section or Topic<a class="anchor" aria-label="anchor" href="#check-access-on-an-individual-section-or-topic"></a>
@@ -154,19 +155,19 @@ A student clicks either the “Next Topic” or “Continue” buttons.</p>
 <strong>Parameters</strong>
 <dl>
 <dt>
-<strong>topic</strong>
+topic
 </dt>
 <dd>
 The topic id, which is of the format <code>section-header-2-name</code>. For example, (## Topic 1) becomes (section-topic-1).
 </dd>
 <dt>
-<strong>section</strong>
+section
 </dt>
 <dd>
 The section id, which is of the format <code>section-header-3-name</code>. For example, (### Exercise 1) becomes (section-exercise-1).
 </dd>
 <dt>
-<strong>type=1</strong>
+type=1
 </dt>
 <dd>
 This is a temporary variable that identifies this GET request’s purpose. A future update will replace the variable with an actual endpoint.
@@ -174,7 +175,7 @@ This is a temporary variable that identifies this GET request’s purpose. A fut
 </dl>
 <strong>Return</strong><br><dl>
 <dt>
-<strong>can_proceed</strong>
+can_proceed
 </dt>
 <dd>
 TRUE - The topic/section CAN be accessed.
@@ -190,6 +191,7 @@ The “Continue” button will only be shown if <a href="https://pkgs.rstudio.co
 <li>
 GET requests are only sent after checking if the exercise can be <a href="https://pkgs.rstudio.com/learnr/articles/exercises.html?q=progress#exercise-skipping" class="external-link">skipped</a>.
 </li>
+<hr>
 </ul>
 </div>
 </div>
@@ -203,31 +205,31 @@ When a student submits an exercise or quiz question for grading.</p>
 <strong>Parameters</strong>
 <dl>
 <dt>
-<strong>student_id</strong>
+student_id
 </dt>
 <dd>
 Initially set as the student’s username (if run from RStudio), but this can be manually set within the tutorial.
 </dd>
 <dt>
-<strong>exercise_id</strong>
+exercise_id
 </dt>
 <dd>
 The name of the exercise/quiz’s code chunk (<code>{r, exercise_name}</code>).
 </dd>
 <dt>
-<strong>is_correct</strong>
+is_correct
 </dt>
 <dd>
 How the submission was marked - TRUE (correct), FALSE (incorrect), NA (not graded).
 </dd>
 <dt>
-<strong>submission</strong>
+submission
 </dt>
 <dd>
 Either the student’s code or the answer they chose for the question.
 </dd>
 <dt>
-<strong>type</strong>
+type
 </dt>
 <dd>
 This is a temporary variable which will be replaced with an endpoint in a future update.
@@ -238,6 +240,7 @@ This is a temporary variable which will be replaced with an endpoint in a future
 By default, only graded coding exercises are transmitted. To transmit all coding exercises, <em>uncomment</em> the additional code provided in the <code>else{}</code> statement.
 </li>
 </ul>
+<hr>
 </div>
 <div class="section level3">
 <h3 id="google-sheet-web-app">Google Sheet Web App<a class="anchor" aria-label="anchor" href="#google-sheet-web-app"></a>
